@@ -2,9 +2,7 @@
 # Batch softmax kernel
 # Adapted from the fused softmax tutorial: https://triton-lang.org/main/getting-started/tutorials/02-fused-softmax.html
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-import argparse
 import triton
 import triton.language as tl
 import unittest
@@ -100,8 +98,6 @@ class TestTritonSoftmax(unittest.TestCase):
         a = torch.randn((batch_size, N, M), device="cuda", dtype=torch.float16)
         triton_output = triton_batch_softmax(a)
         torch_output = F.softmax(a, dim=-1)
-        tensor = torch_output - triton_output
-        nonzero_values = tensor[tensor != 0]
         self.assertTrue(torch.allclose(triton_output, torch_output, atol=self.atol))
 
     def test_two_batched_softmax(self):
