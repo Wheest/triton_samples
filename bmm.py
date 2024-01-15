@@ -238,7 +238,7 @@ def benchmark(Batch, M, N, K, provider):
 
 
 if __name__ == "__main__":
-    # Comment out tests of benchmark as desired
+    # Comment out tests or benchmark as desired
     unittest.main()
     # benchmark.run(show_plots=False, print_data=True, save_path="results/")
 
