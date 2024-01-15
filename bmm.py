@@ -197,8 +197,8 @@ class TestTritonMatmul(unittest.TestCase):
 
 batch_sizes = [1, 4, 8, 16, 32]
 mnk_values = [64, 128, 256, 512]
-batch_sizes = [1, 4]
-mnk_values = [64, 128]
+# batch_sizes = [1, 4]
+# mnk_values = [64, 128]
 x_vals = ((batch, m, n, k) for batch in batch_sizes for m in mnk_values for n in mnk_values for k in mnk_values)
 x_vals_list = list(x_vals)
 
@@ -233,7 +233,7 @@ def benchmark(Batch, M, N, K, provider):
         ms, min_ms, max_ms = triton.testing.do_bench(lambda: torch.matmul(a, b), quantiles=quantiles)
     if provider == "triton":
         ms, min_ms, max_ms = triton.testing.do_bench(lambda: matmul(a, b), quantiles=quantiles)
-    perf = lambda ms: 2 * M * N * K * 1e-12 / (ms * 1e-3)
+    perf = lambda ms: 2 * Batch * M * N * K * 1e-12 / (ms * 1e-3)
     return perf(ms), perf(max_ms), perf(min_ms)
 
 
